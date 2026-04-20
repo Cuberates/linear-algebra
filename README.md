@@ -1,0 +1,2 @@
+## Linear Algebra Engine
+- Implementation of a complete library for performing mathematics on matrices, and n-dimensional vectors. Supports essential matrix operations, arithmetic operations on vector structures, and numerical methods for approximating solutions to systems of linear equations, matrix factorizations. 
