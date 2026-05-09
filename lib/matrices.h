@@ -1,18 +1,17 @@
 #include <iostream> 
-
-/*
-  Define a Matrix structure that can hold any type of data. 
-*/
+#include <cassert>
 
 template<typename Data>
 class Matrix { 
   public: 
     Matrix(uint32_t numRows, uint32_t numCols, Data value);
     Matrix(const Matrix& mat);
-    Matrix(Matrix&& mat) noexcept;
+    Matrix(Matrix&& mat);
     ~Matrix();  
+    uint32_t getRows() const;
+    uint32_t getCols() const; 
     Matrix& operator=(const Matrix& mat); 
-    Matrix& operator=(Matrix&& mat) noexcept;
+    Matrix& operator=(Matrix&& mat);
     Data& operator[](uint32_t row, uint32_t col);
     const Data& operator[](uint32_t row, uint32_t col) const;
     Matrix& operator+=(const Matrix& mat);
@@ -26,19 +25,6 @@ class Matrix {
     uint32_t numCols; 
     Data** data; 
 };
-
-/*
-  Implement the Matrix structure, along with some important arithmetic operations. 
-  Operations to be implemented include: 
-    - Copy constructor
-    - Move constructor
-    - Destructor
-    - Copy assignment operator
-    - Move assignment operator
-    - Element access operator
-    - Addition and subtraction operators (both in-place and returning a new matrix)
-    - Multiplication operator (both in-place and returning a new matrix)
-*/
 
 template<typename Data> 
 Matrix<Data>::Matrix(uint32_t numRows, uint32_t numCols, Data value) : numRows(numRows), numCols(numCols) { 
@@ -63,7 +49,7 @@ Matrix<Data>::Matrix(const Matrix& mat) : numRows(mat.numRows), numCols(mat.numC
 }
 
 template<typename Data>
-Matrix<Data>::Matrix(Matrix&& mat) noexcept : numRows(mat.numRows), numCols(mat.numCols), data(mat.data) { 
+Matrix<Data>::Matrix(Matrix&& mat) : numRows(mat.numRows), numCols(mat.numCols), data(mat.data) { 
   mat.data = nullptr; 
 }
 
@@ -76,3 +62,34 @@ Matrix<Data>::~Matrix() {
     delete[] data;
   }
 }
+
+template<typename Data> 
+Matrix<Data>& Matrix<Data>::operator=(const Matrix& mat) { 
+  if (this == mat) return *this;
+
+  if (mat.numCols == this->numCols && mat.numRows == this->numRows) { 
+    for(uint32_t r = 0; r < numRows; r++) { 
+      for(uint32_t c = 0; c < numCols; c++) { 
+        data[r][c] = mat[r][c];
+      }
+    }
+    return *this;
+  }
+
+  for(uint32_t r = 0; r < numRows; r++) { 
+    delete[] data[r];
+  }
+  delete[] data;
+
+  numRows = mat.getRows();
+  numCols = mat.getCols(); 
+
+  data = new Data*[numRows];
+  for(uint32_t r = 0; r < numRows; r++) { 
+    data[r] = new Data[numCols];
+    for(uint32_t c = 0; c < numCols; c++) { 
+      data[r][c] = mat[r][c];
+    }
+  }
+}
+
