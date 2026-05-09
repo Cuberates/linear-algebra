@@ -12,14 +12,15 @@ class Matrix {
     uint32_t getCols() const; 
     Matrix& operator=(const Matrix& mat); 
     Matrix& operator=(Matrix&& mat);
-    Data& operator[](uint32_t row, uint32_t col);
-    const Data& operator[](uint32_t row, uint32_t col) const;
+    Matrix& operator[](uint32_t row, uint32_t col);
+    const Matrix& operator[](uint32_t row, uint32_t col) const;
     Matrix& operator+=(const Matrix& mat);
     Matrix operator+(const Matrix& mat) const;
     Matrix& operator-=(const Matrix& mat);
     Matrix operator-(const Matrix& mat) const;  
     Matrix& operator*=(const Matrix& mat);
-    Matrix operator*(const Matrix& mat) const;  
+    Matrix operator*(const Matrix& mat) const;
+    friend std::ostream& operator<<(std::ostream& os, const Matrix<Data>& mat);
   private: 
     uint32_t numRows; 
     uint32_t numCols; 
@@ -93,3 +94,22 @@ Matrix<Data>& Matrix<Data>::operator=(const Matrix& mat) {
   }
 }
 
+template<typename Data>
+Matrix::Matrix<Data>::operator[](const uint32_t row, uint32_t col) { 
+
+}
+
+
+
+template<typename Data>
+std::ostream& operator<< (std::ostream& os, const Matrix<Data>& mat) { 
+  const uint32_t& rowSize = mat.getRows();  
+  const uint32_t& colSize = mat.getCols();
+  
+  for(uint32_t r = 0; r < rowSize; r++) { 
+    for(uint32_t c = 0; c < colSize; c++) { 
+      os << mat[r][c] << " ";
+    }
+    os << "\n";
+  }
+} 
