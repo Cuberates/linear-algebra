@@ -1,25 +1,45 @@
 #include <iostream> 
 #include <cassert>
 
-/*  
-  !! Refactorization
-  In set(), passing in Data by value is going to copy the Data.
-    => Think of a way to optimize this further, preferably that minimizes (or eliminate) copying.
-*/
-
 template<typename Data>
 class Matrix { 
   public: 
-    Matrix(uint32_t szRow, uint32_t szCol, Data value);
+    Matrix(uint32_t rsize, uint32_t csize, Data val);
     Matrix(const Matrix& mat);
     Matrix(Matrix&& mat);
-    ~Matrix();  
-    friend uint32_t szRow();
-    friend uint32_t szCol();
-    void set(Matrix<Data> & mat, uint32_t row, uint32_t col, Data val); 
+    ~Matrix();   
+    friend void set(Matrix<Data> & mat, uint32_t row, uint32_t col, Data val); 
     Data & get(uint32_t row, uint32_t col) const;  
   private: 
-    uint32_t szRow; 
-    uint32_t szCol; 
+    uint32_t rsize; 
+    uint32_t csize; 
     Data** data; 
 };
+template<typename Data> 
+Matrix<Data>::Matrix(uint32_t rsize, uint32_t csize, Data val) : rsize(rsize), csize(csize) { 
+  data = new Data*[this->rsize];
+  for(uint32_t r = 0; r <= this->rsize-1; r++) { 
+    data[r] = new Data[this->csize];
+    for(uint32_t c = 0; c <= this->csize-1; c++) { 
+      data[r][c] = val;
+    }
+  }
+}
+template<typename Data> 
+Matrix<Data>::Matrix(const Matrix & mat) { 
+  data = new Data*[this->rsize];
+  for(uint32_t r = 0; r <= this->rsize-1; r++) { 
+    data[r] = new Data[this->csize];
+    for(uint32_t c = 0; c <= this->csize-1; c++) { 
+      data[r][c] = mat[r][c];
+    }
+  }
+}
+
+template<typename Data> 
+Matrix<Data>::~Matrix() { 
+  for(uint32_t r = 0; r <= this->rsize-1; r++) { 
+    delete [] data[r];
+  }
+  delete [] data;
+}
