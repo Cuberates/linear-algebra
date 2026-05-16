@@ -1,7 +1,6 @@
 #include "../lib/fmat.h"
 #include <iostream>
 #include <cassert>
-#include <cstring>
 
 static int tests_run = 0;
 static int tests_passed = 0;
@@ -78,22 +77,22 @@ bool test_set_all_elements() {
 
 bool test_size_rows_and_cols() {
   fmat m(6, 9, 0.0f);
-  return m.size().row == 6 && m.size().col == 9;
+  return m.rsize == 6 && m.csize == 9;
 }
 
 bool test_size_square() {
   fmat m(4, 4, 0.0f);
-  return m.size().row == 4 && m.size().col == 4;
+  return m.rsize == 4 && m.csize == 4;
 }
 
 bool test_size_1x1() {
   fmat m(1, 1, 0.0f);
-  return m.size().row == 1 && m.size().col == 1;
+  return m.rsize == 1 && m.csize == 1;
 }
 
 bool test_size_non_square() {
   fmat m(2, 10, 0.0f);
-  return m.size().row == 2 && m.size().col == 10;
+  return m.rsize == 2 && m.csize == 10;
 }
 
 // --- memory: allocate and destroy multiple matrices ---
@@ -109,7 +108,7 @@ bool test_multiple_allocations() {
 
 bool test_large_matrix_allocation() {
   fmat m(256, 256, 1.0f);
-  return m.size().row == 256 && m.size().col == 256 && get(m, 255, 255) == 1.0f;
+  return m.rsize == 256 && m.csize == 256 && get(m, 255, 255) == 1.0f;
 }
 
 int main() {
