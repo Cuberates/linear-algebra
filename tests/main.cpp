@@ -1,8 +1,10 @@
 #include "../lib/arena.h"
+#include <iostream>
+#include <cassert>
 
 using namespace Allocator;
+using namespace std;
 
 int main(void) { 
-    
-  return 0;
+  // Include test here!
 }
