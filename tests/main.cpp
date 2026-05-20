@@ -1,10 +1,6 @@
-#include "../lib/arena.h"
-#include <iostream>
-#include <cassert>
-
-using namespace Allocator;
-using namespace std;
+#include "../lib/matrix.h"
+#include <iostream> 
 
 int main(void) { 
-  // Include test here!
+  
 }
