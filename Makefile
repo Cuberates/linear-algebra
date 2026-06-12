@@ -1,7 +1,6 @@
 CXX      = g++
 CXXFLAGS = -std=c++2b -Wall -Wextra -pedantic
 SRC_MAIN = tests/main.cpp
-SRC_FMAT = tests/fmat.cpp
 BIN_MAIN = tests/main.o
 
 build:
