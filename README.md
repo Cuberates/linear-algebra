@@ -1,4 +1,4 @@
-## C++ Linear Algebra Engine From Scratch
+## C++ Matrix Structure Implemenation
 Implementation of the `Matrix` class containing essential arithmetics operations.
 ## Project Structure
 ```text
