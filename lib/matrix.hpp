@@ -1,18 +1,25 @@
-#include <iostream>
+#include <vector> 
 #include <algorithm>
-#include <vector>
+#include <cmath>
 
-using Matrix = std::vector<std::vector<float>>;
+template <typename T> 
+class Matrix { 
+  private: 
+  size_t num_rows; 
+  size_t num_cols; 
+  std::vector<T> data;
 
-namespace linalg { 
-  Matrix mul(const Matrix& mat1, const Matrix& mat2);
-  Matrix add(const Matrix& mat1, const Matrix& mat2);
-  Matrix tr(const Matrix& mat1);
-  Matrix diag(const Matrix& mat1);
-  Matrix identity(size_t n);
-  Matrix zeros(size_t n, size_t m);
-  Matrix ones(size_t n, size_t m);
-  Matrix rand(size_t n, size_t m);
-  Matrix randn(size_t n, size_t m);
-}
-
+  public:
+  size_t numCols() const { return num_cols; }
+  size_t numRows() const { return num_rows; }
+  
+  Matrix() : num_rows(0), num_cols(0) {}
+  
+  Matrix(size_t dimension) : Matrix(dimension, dimension) {}
+  
+  Matrix(size_t rows, size_t cols) : 
+    num_rows(rows), num_cols(cols), data(rows * cols) {}
+  
+  Matrix(size_t rows, size_t cols, const std::vector<T>& v_data) : 
+    num_rows(rows), num_cols(cols), data(v_data) {}
+};
