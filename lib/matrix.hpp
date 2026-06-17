@@ -18,6 +18,9 @@ class Matrix {
   Matrix(size_t dimension); 
   Matrix(size_t rows, size_t cols); 
   Matrix(const std::vector<std::vector<T>> & vdata); 
+
+  T& operator() (size_t i, size_t j) const; 
+  T& operator() (size_t i, size_t j);  
 };
 
 #endif

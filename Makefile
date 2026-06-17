@@ -7,7 +7,7 @@ build:
 	$(CXX) $(CXXFLAGS) $(SRC_MAIN) -lgtest -lgtest_main -o $(BIN_MAIN)
 
 test: build
-	./$(BIN_MAIN)
+	./$(BIN_MAIN) && rm -r -f $(BIN_MAIN)
 
 clean:
-	rm -f $(BIN_MAIN) $(BIN_FMAT)
+	rm -f $(BIN_MAIN)
