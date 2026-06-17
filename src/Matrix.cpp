@@ -15,8 +15,11 @@ Matrix<T>::Matrix(std::size_t dimension) :
 template<typename T> 
 Matrix<T>::Matrix(const std::vector<std::vector<T>>& vdata) { 
   std::size_t sz_row = vdata.size(); 
-  std::size_t sz_col = ((*vdata.begin()).size());
-   
+  std::size_t sz_col = ((*vdata.begin()).size()); 
+
+  num_rows = sz_row; 
+  num_cols = sz_col; 
+  
   data = std::vector<std::vector<T>>(sz_row, std::vector<T>(sz_col));
   
   for (std::size_t r = 0; r < sz_row; ++r) {
@@ -25,6 +28,16 @@ Matrix<T>::Matrix(const std::vector<std::vector<T>>& vdata) {
     }
   }
 }
+template<typename T> 
+T& Matrix<T>::operator () (size_t i, size_t j) { 
+  return data[i][j];
+}
+
+template<typename T>
+T& Matrix<T>::operator() (size_t i, size_t j) const { 
+  return data[i][j];
+}
+
 template<typename T> 
 size_t Matrix<T>::numCols() const { 
   return num_cols; 
