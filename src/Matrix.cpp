@@ -30,11 +30,11 @@ Matrix<T>::Matrix(const std::vector<std::vector<T>>& vdata) {
 }
 template<typename T> 
 T& Matrix<T>::operator () (size_t i, size_t j) { 
-  return data[i][j];
+return data[i][j];
 }
 
 template<typename T>
-T& Matrix<T>::operator() (size_t i, size_t j) const { 
+const T& Matrix<T>::operator () (size_t i, size_t j) const { 
   return data[i][j];
 }
 

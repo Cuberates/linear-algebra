@@ -13,7 +13,7 @@ TEST(MATRIX_INIT, INIT_SQUARE_MATRIX) {
   Matrix<float_t> m(static_cast<size_t>(n), static_cast<size_t>(n));
   EXPECT_EQ(n, m.numCols());
   EXPECT_EQ(n, m.numRows());
-  EXPECT_TRUE(m.numCols() == m.numRows()); 
+  EXPECT_EQ(m.numCols(), m.numRows()); 
 }
 
 TEST(MATRIX_INIT, INIT_NORMAL_MATRIX) { 
@@ -33,8 +33,24 @@ TEST(MATRIX_INIT, INIT_FROM_VECTOR) {
   EXPECT_EQ(v.size(), m.numRows());
   EXPECT_EQ(v[0].size(), m.numCols());
   for (size_t r = 0; r < m.numRows(); ++r) { 
-    for (size_t c = 0; c < m.numCols(); ++ c) { 
-      EXPECT_TRUE(v[r][c] == m(r, c));
+    for (size_t c = 0; c < m.numCols(); ++c) { 
+      EXPECT_EQ(v[r][c], m(r, c));
+    }
+  }
+}
+
+TEST(MATRIX_OPERATOR, ASSIGN_VALUE) { 
+  std::vector<std::vector<float_t>> v = { 
+    {1, 2, 3}, 
+    {4, 5, 6}, 
+    {7, 8, 9},
+  }; 
+
+  Matrix<float_t> m(v);  
+  for(size_t r = 0; r < m.numRows(); ++r) { 
+    for(size_t c = 0; c < m.numCols(); ++c) { 
+      m(r, c) = (r*c);
+      EXPECT_EQ(r*c, m(r, c));
     }
   }
 }
