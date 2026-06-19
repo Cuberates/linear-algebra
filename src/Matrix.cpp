@@ -14,11 +14,10 @@ Matrix<T>::Matrix(std::size_t dimension) :
 
 template<typename T> 
 Matrix<T>::Matrix(const std::vector<std::vector<T>>& vdata) { 
-
   num_rows = vdata.size(); 
   num_cols = ((*vdata.begin()).size()); 
   
-  data = std::vector<std::vector<T>>(sz_row, std::vector<T>(sz_col));
+  data = std::vector<std::vector<T>>(num_rows, std::vector<T>(num_cols));
   
   for (std::size_t r = 0; r < num_rows; ++r) {
     for (std::size_t c = 0; c < num_cols; ++c) { 
