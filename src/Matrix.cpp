@@ -14,16 +14,14 @@ Matrix<T>::Matrix(std::size_t dimension) :
 
 template<typename T> 
 Matrix<T>::Matrix(const std::vector<std::vector<T>>& vdata) { 
-  std::size_t sz_row = vdata.size(); 
-  std::size_t sz_col = ((*vdata.begin()).size()); 
 
-  num_rows = sz_row; 
-  num_cols = sz_col; 
+  num_rows = vdata.size(); 
+  num_cols = ((*vdata.begin()).size()); 
   
   data = std::vector<std::vector<T>>(sz_row, std::vector<T>(sz_col));
   
-  for (std::size_t r = 0; r < sz_row; ++r) {
-    for (std::size_t c = 0; c < sz_col; ++c) { 
+  for (std::size_t r = 0; r < num_rows; ++r) {
+    for (std::size_t c = 0; c < num_cols; ++c) { 
       data[r][c] = vdata[r][c];
     }
   }
