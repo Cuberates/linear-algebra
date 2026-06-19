@@ -102,3 +102,21 @@ bool Mat::scale(Matrix<T> &dst, const T& scalar) {
   }
   return true; 
 }
+
+template<typename T> 
+bool Mat::mul(Matrix<T> &dst, const Matrix<T>& A, const Matrix<T>& B) {
+  if (A.numCols() != B.numRows()) return false;  
+  if (dst.numRows() != A.numRows()) return false; 
+  if (dst.numCols() != B.numCols()) return false; 
+
+  for(size_t row = 0; row < dst.numRows(); ++row) { 
+    for(size_t col = 0; col < dst.numCols(); ++col) { 
+      T sum = 0; 
+      for(size_t k = 0; k < A.numCols(); ++k) { 
+        sum = sum + (A(row, k) * B(k, col));
+      }
+      dst(row, col) = std::move(sum);
+    }
+  }
+  return true;
+}
