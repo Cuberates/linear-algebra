@@ -12,7 +12,7 @@ TEST(MATRIX_OPERATOR, ADD_MATRIX_SAME_SIZES) {
   }; 
   Matrix<float_t> a(v), b(v); 
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_TRUE(Mat::add(dst, a, b));
+  EXPECT_TRUE(Mat::add_to(dst, a, b));
   for(size_t r = 0; r < dst.numRows(); ++r) { 
     for(size_t c = 0; c < dst.numCols(); ++c) { 
       EXPECT_EQ(a(r, c) + b(r, c), dst(r, c));
@@ -32,7 +32,7 @@ TEST(MATRIX_OPERATOR, ADD_MATRIX_DIFF_SIZES) {
   };
   Matrix<float_t> a(v), b(w);
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_FALSE(Mat::add(dst, a, b)); 
+  EXPECT_FALSE(Mat::add_to(dst, a, b)); 
 }
 
 TEST(MATRIX_OPERATOR, ADD_MATRIX_DIFF_DST_SIZES) { 
@@ -43,7 +43,7 @@ TEST(MATRIX_OPERATOR, ADD_MATRIX_DIFF_DST_SIZES) {
   }; 
   Matrix<float_t> a(v), b(v);
   Matrix<float_t> dst(a.numRows()+1, a.numCols()+1);
-  EXPECT_FALSE(Mat::add(dst, a, b)); 
+  EXPECT_FALSE(Mat::add_to(dst, a, b)); 
 }
 
 TEST(MATRIX_OPERATOR, ADD_MATRIX_EMPTY_MATRICES) {
@@ -51,7 +51,7 @@ TEST(MATRIX_OPERATOR, ADD_MATRIX_EMPTY_MATRICES) {
   Matrix<float_t> b;
   Matrix<float_t> dst;
 
-  EXPECT_FALSE(Mat::add(dst, a, b));
+  EXPECT_FALSE(Mat::add_to(dst, a, b));
 }
 
 TEST(MATRIX_OPERATOR, ADD_MATRIX_LARGE_NUMBERS) {
@@ -63,7 +63,7 @@ TEST(MATRIX_OPERATOR, ADD_MATRIX_LARGE_NUMBERS) {
 
   Matrix<float_t> a(v), b(v);
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_FALSE(Mat::add(dst, a, b));
+  EXPECT_FALSE(Mat::add_to(dst, a, b));
 }
 
 TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_SAME_SIZES) { 
@@ -74,7 +74,7 @@ TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_SAME_SIZES) {
   }; 
   Matrix<float_t> a(v), b(v); 
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_TRUE(Mat::subtract(dst, a, b));
+  EXPECT_TRUE(Mat::subtract_to(dst, a, b));
   for(size_t r = 0; r < dst.numRows(); ++r) { 
     for(size_t c = 0; c < dst.numCols(); ++c) { 
       EXPECT_EQ(a(r, c) - b(r, c), dst(r, c));
@@ -94,7 +94,7 @@ TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_DIFF_SIZES) {
   };
   Matrix<float_t> a(v), b(w);
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_FALSE(Mat::subtract(dst, a, b));  
+  EXPECT_FALSE(Mat::subtract_to(dst, a, b));  
 }
 
 TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_DIFF_DST_SIZES) { 
@@ -105,7 +105,7 @@ TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_DIFF_DST_SIZES) {
   }; 
   Matrix<float_t> a(v), b(v);
   Matrix<float_t> dst(a.numRows()+1, a.numCols()+1);
-  EXPECT_FALSE(Mat::subtract(dst, a, b)); 
+  EXPECT_FALSE(Mat::subtract_to(dst, a, b)); 
 }
 
 TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_EMPTY_MATRICES) {
@@ -113,7 +113,7 @@ TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_EMPTY_MATRICES) {
   Matrix<float_t> b;
   Matrix<float_t> dst;
 
-  EXPECT_FALSE(Mat::subtract(dst, a, b));
+  EXPECT_FALSE(Mat::subtract_to(dst, a, b));
 }
 
 TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_LARGE_NUMBERS) {
@@ -129,7 +129,141 @@ TEST(MATRIX_OPERATOR, SUBTRACT_MATRIX_LARGE_NUMBERS) {
 
   Matrix<float_t> a(va), b(vb);
   Matrix<float_t> dst(a.numRows(), a.numCols());
-  EXPECT_FALSE(Mat::subtract(dst, a, b));
+  EXPECT_FALSE(Mat::subtract_to(dst, a, b));
+}
+
+TEST(MATRIX_OPERATOR, ADD_INPLACE_MATRIX_SAME_SIZES) {
+  std::vector<std::vector<float_t>> vd = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {9, 8, 7},
+    {6, 5, 4},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_TRUE(Mat::add(dst, a));
+  for(size_t r = 0; r < dst.numRows(); ++r) {
+    for(size_t c = 0; c < dst.numCols(); ++c) {
+      EXPECT_EQ(vd[r][c] + va[r][c], dst(r, c));
+    }
+  }
+}
+
+TEST(MATRIX_OPERATOR, ADD_INPLACE_MATRIX_DIFF_SIZES) {
+  std::vector<std::vector<float_t>> vd = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {1, 2},
+    {3, 4},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_FALSE(Mat::add(dst, a));
+}
+
+TEST(MATRIX_OPERATOR, ADD_INPLACE_MATRIX_WITH_ZERO) {
+  std::vector<std::vector<float_t>> vd = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> zeros = {
+    {0, 0, 0},
+    {0, 0, 0},
+  };
+
+  Matrix<float_t> dst(vd), a(zeros);
+  EXPECT_TRUE(Mat::add(dst, a));
+  for(size_t r = 0; r < dst.numRows(); ++r) {
+    for(size_t c = 0; c < dst.numCols(); ++c) {
+      EXPECT_EQ(vd[r][c], dst(r, c));
+    }
+  }
+}
+
+TEST(MATRIX_OPERATOR, ADD_INPLACE_MATRIX_LARGE_NUMBERS) {
+  const float_t large = std::numeric_limits<float_t>::max();
+  std::vector<std::vector<float_t>> vd = {
+    {large, large},
+    {large, large},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {large, large},
+    {large, large},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_FALSE(Mat::add(dst, a));
+}
+
+TEST(MATRIX_OPERATOR, SUBTRACT_INPLACE_MATRIX_SAME_SIZES) {
+  std::vector<std::vector<float_t>> vd = {
+    {10, 10, 10},
+    {5, 5, 5},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {1, 2, 3},
+    {4, 5, 1},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_TRUE(Mat::subtract(dst, a));
+  for(size_t r = 0; r < dst.numRows(); ++r) {
+    for(size_t c = 0; c < dst.numCols(); ++c) {
+      EXPECT_EQ(vd[r][c] - va[r][c], dst(r, c));
+    }
+  }
+}
+
+TEST(MATRIX_OPERATOR, SUBTRACT_INPLACE_MATRIX_DIFF_SIZES) {
+  std::vector<std::vector<float_t>> vd = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {1, 2},
+    {3, 4},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_FALSE(Mat::subtract(dst, a));
+}
+
+TEST(MATRIX_OPERATOR, SUBTRACT_INPLACE_MATRIX_WITH_ZERO) {
+  std::vector<std::vector<float_t>> vd = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> zeros = {
+    {0, 0, 0},
+    {0, 0, 0},
+  };
+
+  Matrix<float_t> dst(vd), a(zeros);
+  EXPECT_TRUE(Mat::subtract(dst, a));
+  for(size_t r = 0; r < dst.numRows(); ++r) {
+    for(size_t c = 0; c < dst.numCols(); ++c) {
+      EXPECT_EQ(vd[r][c], dst(r, c));
+    }
+  }
+}
+
+TEST(MATRIX_OPERATOR, SUBTRACT_INPLACE_MATRIX_LARGE_NUMBERS) {
+  const float_t large = std::numeric_limits<float_t>::max();
+  std::vector<std::vector<float_t>> vd = {
+    {large, large},
+    {large, large},
+  };
+  std::vector<std::vector<float_t>> va = {
+    {-large, -large},
+    {-large, -large},
+  };
+
+  Matrix<float_t> dst(vd), a(va);
+  EXPECT_FALSE(Mat::subtract(dst, a));
 }
 
 TEST(MATRIX_OPERATOR, SCALE_MATRIX_NORMAL) {
