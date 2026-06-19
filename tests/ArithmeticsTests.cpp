@@ -314,6 +314,68 @@ TEST(MATRIX_OPERATOR, SCALE_MATRIX_LARGE_NUMBERS) {
   EXPECT_FALSE(Mat::scale(dst, 2.0f));
 }
 
+TEST(MATRIX_OPERATOR, MULTIPLY_MATRIX_VALID_SIZES) { 
+  std::vector<std::vector<float_t>> v = { 
+    {1, 2, 3}, 
+    {4, 5, 6}, 
+    {7, 8, 9}
+  }; 
+  std::vector<std::vector<float_t>> w = { 
+    {9, 8, 7}, 
+    {6, 5, 4}, 
+    {3, 2, 1}
+  };
+  std::vector<std::vector<float_t>> vw = { 
+    {30, 24, 18}, 
+    {84, 69, 54},
+    {138, 114, 90}
+  };
+
+  
+  Matrix<float_t> A(v), B(w); 
+  Matrix<float_t> dst(v.size(), (*w.begin()).size());
+  EXPECT_TRUE(Mat::mul(dst, A, B));
+  for(size_t row = 0; row < dst.numRows(); ++row) { 
+    for(size_t col = 0; col < dst.numCols(); ++col) { 
+      EXPECT_EQ(vw[row][col], dst(row, col));
+    }
+  }
+}
+
+
+TEST(MATRIX_OPERATOR, MULTIPLY_MATRIX_INVALID_SIZES) { 
+  std::vector<std::vector<float_t>> v = {
+    {1, 2, 3},
+    {4, 5, 6},
+  };
+  std::vector<std::vector<float_t>> w = {
+    {1, 2},
+    {3, 4},
+  };
+
+  Matrix<float_t> A(v), B(w);
+  Matrix<float_t> dst(A.numRows(), B.numCols());
+  EXPECT_FALSE(Mat::mul(dst, A, B));
+}
+
+TEST(MATRIX_OPERATOR, MULTIPLY_MATRIX_INVALID_DST_SIZES) {
+  std::vector<std::vector<float_t>> v = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9},
+  };
+  std::vector<std::vector<float_t>> w = {
+    {9, 8, 7},
+    {6, 5, 4},
+    {3, 2, 1},
+  };
+
+  Matrix<float_t> A(v), B(w);
+  Matrix<float_t> dst(A.numRows() + 1, B.numCols());
+  EXPECT_FALSE(Mat::mul(dst, A, B));
+}
+
+
 int main() {
   ::testing::InitGoogleTest();
   return RUN_ALL_TESTS();
