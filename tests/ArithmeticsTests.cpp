@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <limits>
 #include "../lib/Matrix.hpp"
-#include "../src/Matrix.cpp"
-#include "../src/Arithmetics.cpp"
+#include "../lib/Matrix.cpp"
+#include "../lib/Arithmetics.cpp"
 
 TEST(MATRIX_OPERATOR, ADD_MATRIX_SAME_SIZES) { 
   std::vector<std::vector<float_t>> v = { 

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "../lib/Matrix.hpp"
-#include "../src/Matrix.cpp"
+#include "../lib/Matrix.cpp"
 
 TEST(MATRIX_INIT, INIT_EMPTY_MATRIX) { 
   Matrix<float_t> m;

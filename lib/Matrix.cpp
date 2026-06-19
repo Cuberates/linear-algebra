@@ -1,4 +1,4 @@
-#include "../lib/Matrix.hpp"
+#include "Matrix.hpp"
 
 template<typename T> 
 Matrix<T>::Matrix() : 

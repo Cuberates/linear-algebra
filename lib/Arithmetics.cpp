@@ -1,4 +1,4 @@
-#include "../lib/Matrix.hpp"
+#include "Matrix.hpp"
 #include <type_traits>
 
 namespace Mat {
