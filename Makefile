@@ -1,13 +1,18 @@
 CXX      = g++
-CXXFLAGS = -std=c++2b -Wall -Wextra -pedantic
-SRC_MAIN = tests/MatrixTests.cpp
-BIN_MAIN = tests/MatrixTests.o
+CXXFLAGS = -std=c++2b -Wall -Wextra -pedantic -lgtest -lgtest_main 
+
+# Sources
+src_matrix_test = tests/MatrixTests
+src_arithmetics_test = tests/ArithmeticsTests
 
 build:
-	$(CXX) $(CXXFLAGS) $(SRC_MAIN) -lgtest -lgtest_main -o $(BIN_MAIN)
+	$(CXX) $(CXXFLAGS) $(src_matrix_test).cpp -o $(src_matrix_test).o
+	$(CXX) $(CXXFLAGS) $(src_arithmetics_test).cpp -o $(src_arithmetics_test).o
+
 
 test: build
-	./$(BIN_MAIN) && rm -r -f $(BIN_MAIN)
-
+	./$(src_matrix_test).o && rm -r -f $(src_matrix_test).o
+	./$(src_arithmetics_test).o && rm -r -f $(src_arithmetics_test).o
+		
 clean:
 	rm -f $(BIN_MAIN)
