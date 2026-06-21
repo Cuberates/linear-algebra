@@ -4,6 +4,28 @@
 #include "../lib/Matrix.cpp"
 #include "../lib/Arithmetics.cpp"
 
+TEST(MATRIX_OPERATOR, SAME_SIZE_MATRIX_CASES) {
+  Matrix<float_t> same_row_diff_col_a(3, 4);
+  Matrix<float_t> same_row_diff_col_b(3, 5);
+  EXPECT_FALSE(Mat::same_size(same_row_diff_col_a, same_row_diff_col_b));
+
+  Matrix<float_t> diff_row_same_col_a(3, 4);
+  Matrix<float_t> diff_row_same_col_b(5, 4);
+  EXPECT_FALSE(Mat::same_size(diff_row_same_col_a, diff_row_same_col_b));
+
+  Matrix<float_t> same_both_a(7, 9);
+  Matrix<float_t> same_both_b(7, 9);
+  EXPECT_TRUE(Mat::same_size(same_both_a, same_both_b));
+
+  Matrix<float_t> diff_both_a(2, 6);
+  Matrix<float_t> diff_both_b(4, 3);
+  EXPECT_FALSE(Mat::same_size(diff_both_a, diff_both_b));
+
+  Matrix<float_t> zero_a;
+  Matrix<float_t> zero_b;
+  EXPECT_TRUE(Mat::same_size(zero_a, zero_b));
+}
+
 TEST(MATRIX_OPERATOR, ADD_MATRIX_SAME_SIZES) { 
   std::vector<std::vector<float_t>> v = { 
     {1, 2, 3}, 

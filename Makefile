@@ -15,4 +15,5 @@ test: build
 	./$(src_arithmetics_test).o && rm -r -f $(src_arithmetics_test).o
 		
 clean:
-	rm -f $(BIN_MAIN)
+	rm -r -f ${src_matrix_test}.o
+	rm -r -f ${src_arithmetics_test}.o

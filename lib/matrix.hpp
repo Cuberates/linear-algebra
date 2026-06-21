@@ -12,7 +12,9 @@ class Matrix {
   std::vector<std::vector<T>> data;
 
   public:
+  [[nodiscard]]
   size_t numCols() const;
+  [[nodiscard]]
   size_t numRows() const;
   Matrix(); 
   Matrix(size_t dimension); 
