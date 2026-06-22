@@ -4,13 +4,15 @@
 #include <algorithm>
 #include <cmath>
 
+template<typename T>
+using vector2D = std::vector<std::vector<T>>;
+
 template <typename T> 
-class Matrix { 
+class Matrix {
   private: 
   size_t num_rows; 
   size_t num_cols; 
-  std::vector<std::vector<T>> data;
-
+  vector2D<T> data; 
   public:
   [[nodiscard]]
   size_t numCols() const;
@@ -19,8 +21,8 @@ class Matrix {
   Matrix(); 
   Matrix(size_t dimension); 
   Matrix(size_t rows, size_t cols); 
-  Matrix(const std::vector<std::vector<T>> & vdata);
-
+  Matrix(const vector2D<T>& vector_2d);
+  Matrix(std::initializer_list<std::initializer_list<T>> array_2d);
   const T& operator() (size_t i, size_t j) const;  
   T& operator() (size_t i, size_t j); 
 };

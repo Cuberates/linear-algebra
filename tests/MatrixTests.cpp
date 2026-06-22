@@ -39,6 +39,16 @@ TEST(MATRIX_INIT, INIT_FROM_VECTOR) {
   }
 }
 
+TEST(MATRIX_INIT, INIT_FROM_INTIALIZER_LIST) { 
+  Matrix<float_t> m = {{1, 2}, {3, 4}};
+  EXPECT_EQ(size_t(2), m.numRows()); 
+  EXPECT_EQ(size_t(2), m.numCols());
+  EXPECT_EQ(1.0f, m(0, 0)); 
+  EXPECT_EQ(2.0f, m(0, 1));
+  EXPECT_EQ(3.0f, m(1, 0));
+  EXPECT_EQ(4.0f, m(1, 1));
+}
+
 TEST(MATRIX_OPERATOR, ASSIGN_VALUE) { 
   std::vector<std::vector<float_t>> v = { 
     {1, 2, 3}, 
@@ -54,7 +64,6 @@ TEST(MATRIX_OPERATOR, ASSIGN_VALUE) {
     }
   }
 }
-
 int main() {
   ::testing::InitGoogleTest();
   return RUN_ALL_TESTS();

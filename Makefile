@@ -1,5 +1,5 @@
 CXX      = g++
-CXXFLAGS = -std=c++2b -Wall -Wextra -pedantic -lgtest -lgtest_main 
+CXXFLAGS = -std=c++2b -Wall -Wextra -pedantic -lgtest -lgtest_main -O0 
 
 # Sources
 src_matrix_test = tests/MatrixTests
