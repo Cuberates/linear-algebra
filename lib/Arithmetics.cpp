@@ -4,7 +4,7 @@
 namespace Mat {
   template<typename T>
   [[nodiscard]] 
-  bool same_size(const Matrix<T>& A, const Matrix<T>& B); 
+  bool same_size(const Matrix<T>& A, const Matrix<T> &B); 
   template<typename T>
   bool add_to(Matrix<T>& dst, const Matrix<T>& A, const Matrix<T>& B); 
   template<typename T> 

@@ -397,6 +397,22 @@ TEST(MATRIX_OPERATOR, MULTIPLY_MATRIX_INVALID_DST_SIZES) {
   EXPECT_FALSE(Mat::mul(dst, A, B));
 }
 
+TEST(MATRIX_OPERATOR, ASSIGN_VALUE) { 
+  std::vector<std::vector<float_t>> v = { 
+    {1, 2, 3}, 
+    {4, 5, 6}, 
+    {7, 8, 9},
+  }; 
+
+  Matrix<float_t> m(v);  
+  for(size_t r = 0; r < m.numRows(); ++r) { 
+    for(size_t c = 0; c < m.numCols(); ++c) { 
+      m(r, c) = (r*c);
+      EXPECT_EQ(r*c, m(r, c));
+    }
+  }
+}
+
 
 int main() {
   ::testing::InitGoogleTest();
